@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="Othello:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Othello_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Othello.jar">
+        <element id="module-output" name="Othello" />
+        <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+      </element>
+    </root>
+  </artifact>
+</component>
