@@ -10,6 +10,6 @@ interface Playable {
 
     TransferObject makeTurn(int x, int y) throws IllegalTurnException;
     boolean checkTurn(int x, int y);
-    GameState state();
+    GameState changeState();
     //int score(PlayerColor c);
 }

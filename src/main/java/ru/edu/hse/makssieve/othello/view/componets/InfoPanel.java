@@ -1,22 +1,18 @@
 package ru.edu.hse.makssieve.othello.view.componets;
 
 
-import ru.edu.hse.makssieve.othello.controller.ExitGameListener;
-import ru.edu.hse.makssieve.othello.controller.StartNewGameListener;
+import ru.edu.hse.makssieve.othello.controller.ExitListener;
+import ru.edu.hse.makssieve.othello.controller.NewGameListener;
 import ru.edu.hse.makssieve.othello.controller.TransferObject;
 import ru.edu.hse.makssieve.othello.view.Informable;
 import ru.edu.hse.makssieve.othello.view.events.ExitGameEvent;
 import ru.edu.hse.makssieve.othello.view.events.StartNewGameEvent;
 
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.Iterator;
 
 public class InfoPanel extends JMenuBar implements Informable, Updatable{
 
@@ -31,11 +27,23 @@ public class InfoPanel extends JMenuBar implements Informable, Updatable{
         super();
         startNewGameEvent = new StartNewGameEvent(this);
         exitGameEvent = new ExitGameEvent(this);
+        
+        // Create main menu
         JMenu gameMenu = new JMenu("Game");
-        gameMenu.add(new JMenuItem("New Game"));
+        
+        // Create elements of main menu
+        JMenuItem newGameItem = new JMenuItem("New Game");
         JMenuItem exitItem = new JMenuItem("Exit");
+        
+        // Addin' listenters to elements of main menu
+        newGameItem.addMouseListener(new NewGameClickListener());
         exitItem.addMouseListener(new ExitClickListener());
+        
+        // Addin' elements into menu
         gameMenu.add(exitItem);
+        gameMenu.add(newGameItem);
+        
+        
         whiteScore = new JLabel();
         blackScore = new JLabel();
         currentPlayer = new JLabel();
@@ -68,15 +76,21 @@ public class InfoPanel extends JMenuBar implements Informable, Updatable{
     public int inform(String msg) {
         return 0;
     }
+    
     private void fireNewGame(){
-
+        int res = JOptionPane.showConfirmDialog(this,"Start new game?", "Are you sure?", JOptionPane.YES_NO_OPTION);
+        if (res == 0) {
+            for (Object eventListener : eventListeners) {
+                ((NewGameListener) eventListener).startGame(startNewGameEvent);
+            }
+        }
     }
 
     private void fireExitGame(){
         int res = JOptionPane.showConfirmDialog(this,"Exit Othello", "Are you sure?", JOptionPane.YES_NO_OPTION);
         if (res == 0) {
             for (Object eventListener : eventListeners) {
-                ((ExitGameListener) eventListener).exitGame(exitGameEvent);
+                ((ExitListener) eventListener).exitGame(exitGameEvent);
             }
         }
     }
@@ -89,6 +103,13 @@ public class InfoPanel extends JMenuBar implements Informable, Updatable{
         @Override
         public void mouseClicked(MouseEvent e) {
             fireExitGame();
+        }
+    }
+    
+    private class NewGameClickListener extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            fireNewGame();
         }
     }
 }

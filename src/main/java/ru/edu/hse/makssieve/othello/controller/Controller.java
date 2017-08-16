@@ -8,7 +8,7 @@ import ru.edu.hse.makssieve.othello.view.events.ExitGameEvent;
 import ru.edu.hse.makssieve.othello.view.events.StartNewGameEvent;
 import ru.edu.hse.makssieve.othello.view.forms.MainWindow;
 
-public class Controller implements BoardListener, StartNewGameListener, ExitGameListener {
+public class Controller implements BoardListener, NewGameListener, ExitListener {
 
     private Game game;
     private MainWindow win;
@@ -19,17 +19,17 @@ public class Controller implements BoardListener, StartNewGameListener, ExitGame
 
         this.win.updateView(this.game.getTransferObject());
         this.win.setBoardListener(this);
-        //this.win.setExitGameListener(this);
-        //this.win.setStartNewGameListener(this);
+        this.win.setExitGameListener(this);
+        this.win.setStartNewGameListener(this);
 
     }
 
     public void cellPressed(CellPressedEvent e) {
         try {
             win.updateView(game.makeTurn(e.getX(), e.getY()));
-            if (game.state() != GameState.InProgress) {
+            if (game.changeState() != GameState.InProgress) {
                 int res = -1;
-                switch (game.state()){
+                switch (game.changeState()){
                     case BlackWon: res  = win.inform("Black won!\nStart new game?");
                     case WhiteWon: res  = win.inform("White won!\nStart new game?");
                     case Draw: res  = win.inform("Draw!\nStart new game?");

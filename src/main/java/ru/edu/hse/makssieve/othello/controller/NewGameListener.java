@@ -4,6 +4,6 @@ import ru.edu.hse.makssieve.othello.view.events.StartNewGameEvent;
 
 import java.util.EventListener;
 
-public interface StartNewGameListener extends EventListener {
+public interface NewGameListener extends EventListener {
     void startGame(StartNewGameEvent e);
 }

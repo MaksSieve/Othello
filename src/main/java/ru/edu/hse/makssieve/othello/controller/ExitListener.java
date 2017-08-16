@@ -5,6 +5,6 @@ import ru.edu.hse.makssieve.othello.view.events.ExitGameEvent;
 import java.util.EventListener;
 
 
-public interface ExitGameListener extends EventListener {
+public interface ExitListener extends EventListener {
     void exitGame(ExitGameEvent e);
 }

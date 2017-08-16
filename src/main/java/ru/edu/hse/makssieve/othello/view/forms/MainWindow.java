@@ -1,25 +1,21 @@
 package ru.edu.hse.makssieve.othello.view.forms;
 
 import ru.edu.hse.makssieve.othello.controller.BoardListener;
-import ru.edu.hse.makssieve.othello.controller.ExitGameListener;
-import ru.edu.hse.makssieve.othello.controller.StartNewGameListener;
+import ru.edu.hse.makssieve.othello.controller.ExitListener;
+import ru.edu.hse.makssieve.othello.controller.NewGameListener;
 import ru.edu.hse.makssieve.othello.controller.TransferObject;
-import ru.edu.hse.makssieve.othello.model.enums.PlayerColor;
-import ru.edu.hse.makssieve.othello.view.Alertable;
-import ru.edu.hse.makssieve.othello.view.Informable;
 import ru.edu.hse.makssieve.othello.view.componets.BoardPanel;
 import ru.edu.hse.makssieve.othello.view.componets.InfoPanel;
 import ru.edu.hse.makssieve.othello.view.events.StartNewGameEvent;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
 public class MainWindow extends JFrame{
 
     private InfoPanel infoPanel = new InfoPanel();
     private BoardPanel boardPanel = new BoardPanel();
-    //private StartNewGameListener startNewGameListener;
+    private NewGameListener newGameListener;
 
     public MainWindow(){
         super("Othello");
@@ -47,21 +43,21 @@ public class MainWindow extends JFrame{
         boardPanel.setListeners(listener);
     }
 
-    public void setExitGameListener(ExitGameListener listener) {
+    public void setExitGameListener(ExitListener listener) {
         infoPanel.setListener(listener);
     }
-    public void setStartNewGameListener(StartNewGameListener listener) {
+    /*public void setStartNewGameListener(NewGameListener listener) {
         infoPanel.setListener(listener);
+    }*/
+
+
+    public void setStartNewGameListener(NewGameListener newGameListener) {
+        this.newGameListener = newGameListener;
     }
 
-
-    /*public void setStartNewGameListener(StartNewGameListener startNewGameListener) {
-        this.startNewGameListener = startNewGameListener;
-    }*/
-
-/*    private void fireStartNewGame(){
-        startNewGameListener.startGame(new StartNewGameEvent(this));
-    }*/
+   private void fireStartNewGame(){
+        newGameListener.startGame(new StartNewGameEvent(this));
+    }
 
     public void alert(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Alert!", JOptionPane.WARNING_MESSAGE);
